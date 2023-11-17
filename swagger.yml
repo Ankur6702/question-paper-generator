@@ -11,10 +11,10 @@ servers:
   - url: 
     description: Production Server
 paths:
-  /questions:
+  /question/getAll:
     get:
       tags:
-        - Common
+        - Question
       summary: Get all questions
       parameters:
         - in: query
@@ -25,7 +25,7 @@ paths:
           description: Limit of questions per page
         - in: query
           name: sort
-          description: Sort by popular (default) or recent
+          description: Sort by difficulty or marks
       responses:
         '200':
           description: Questions Fetched Successfully
@@ -33,10 +33,45 @@ paths:
           description: Unauthorized
         '500':
           description: Internal Server Error
-  /fetchQuestion/{questionId}:
+  /question/create:
+    post:
+      tags:
+        - Question
+      summary: Create a Question
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUpdateQuestion'
+      responses:
+        '200':
+          description: Question Created Successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  /question/update/{questionId}:
+    put:
+      tags:
+        - Question
+      summary: Update a Question
+      parameters:
+        - in: path
+          name: questionId
+          description: Question ID
+          schema:
+            type: string
+            format: ObjectId
+      requestBody:
+        $ref: '#/components/requestBodies/CreateUpdateQuestion'
+      responses:
+        '200':
+          description: Question Updated Successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  /question/get/{questionId}:
     get:
       tags:
-        - Common
+        - Question
       summary: Get a Question
       parameters:
         - in: path
@@ -48,6 +83,53 @@ paths:
       responses:
         '200':
           description: Question Fetched Successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  /question/delete/{questionId}:
+    delete:
+      tags:
+        - Question
+      summary: Delete a Question
+      parameters:
+        - in: path
+          name: questionId
+          description: Question ID
+          schema:
+            type: string
+            format: ObjectId
+      responses:
+        '200':
+          description: Question Deleted Successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Errors
+  /question/searchByDifficulty:
+    post:
+      tags:
+        - Question
+      summary: Search questions based on difficulty.
+      requestBody:
+        $ref: '#/components/requestBodies/SearchByDifficulty'
+      responses:
+        '200':
+          description: Questions Fetched Successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  /question/searchBySubject:
+    post:
+      tags:
+        - Question
+      summary: Search questions based on subject.
+      requestBody:
+        $ref: '#/components/requestBodies/SearchBySubject'
+      responses:
+        '200':
+          description: Questions Fetched Successfully
         '401':
           description: Unauthorized
         '500':
@@ -72,20 +154,7 @@ components:
         creationDate:
           type: string
           format: date-time
-    CreateQuestionInput:
-      type: object
-      properties:
-        question:
-          type: string
-        subject:
-          type: string
-        topic:
-          type: string
-        difficulty:
-          type: string
-        marks:
-          type: string
-    UpdateQuestionInput:
+    CreateUpdateQuestionInput:
       type: object
       properties:
         question:
@@ -99,15 +168,27 @@ components:
         marks:
           type: string
   requestBodies:
-    CreateQuestion:
+    CreateUpdateQuestion:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/CreateQuestionInput'
-        description: Create Question
-    UpdateQuestion:
+            $ref: '#/components/schemas/CreateUpdateQuestionInput'
+        description: Create/Update Question
+    SearchByDifficulty:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/UpdateQuestionInput'
-        description: Update Question
+            type: object
+            properties:
+              difficulty:
+                type: string
+            description: Search by difficulty
+    SearchBySubject:
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              subject:
+                type: string
+            description: Search by subject

@@ -1,19 +1,32 @@
 // Npm Packages
 const express = require('express');
 const router = express.Router();
-const dotenv = require('dotenv');
-const { body, validationResult } = require('express-validator');
 
-// Models
-const Question = require('../models/Question');
+// Controllers
+const { 
+    createQuestion,  
+    getQuestionById,
+    getAllQuestions,
+    updateQuestionById,
+    deleteQuestionById,
+    searchQuestionsByDifficulty,
+    searchQuestionsBySubject
+} = require('../controllers/questionController');
 
-// Local functions
-const logger = require('../logger');
+// Routes for /api/questions
 
-dotenv.config();
+router.post('/create', createQuestion);
 
-// Create a Question
-// @ts-ignore
+router.get('/get/:id', getQuestionById);
 
+router.get('/getAll', getAllQuestions);
+
+router.put('/update/:id', updateQuestionById);
+
+router.delete('/delete/:id', deleteQuestionById);
+
+router.post('/searchByDifficulty', searchQuestionsByDifficulty);
+
+router.post('/searchBySubject', searchQuestionsBySubject);
 
 module.exports = router;
