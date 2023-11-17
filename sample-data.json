@@ -1,0 +1,191 @@
+[
+    {
+        "question": "What is the speed of light",
+        "subject": "Physics",
+        "topic": "Waves",
+        "difficulty": "Easy",
+        "marks": 5
+    },
+    {
+        "question": "Explain the laws of thermodynamics",
+        "subject": "Physics",
+        "topic": "Thermodynamics",
+        "difficulty": "Medium",
+        "marks": 8
+    },
+    {
+        "question": "Define photosynthesis",
+        "subject": "Biology",
+        "topic": "Cell Biology",
+        "difficulty": "Easy",
+        "marks": 6
+    },
+    {
+        "question": "Solve the quadratic equation x^2 + 4x + 4 = 0",
+        "subject": "Mathematics",
+        "topic": "Algebra",
+        "difficulty": "Medium",
+        "marks": 7
+    },
+    {
+        "question": "Who discovered penicillin",
+        "subject": "Chemistry",
+        "topic": "Biochemistry",
+        "difficulty": "Easy",
+        "marks": 5
+    },
+    {
+        "question": "Discuss the impact of climate change",
+        "subject": "Environmental Science",
+        "topic": "Climate Change",
+        "difficulty": "Hard",
+        "marks": 10
+    },
+    {
+        "question": "Describe the process of mitosis",
+        "subject": "Biology",
+        "topic": "Cell Division",
+        "difficulty": "Medium",
+        "marks": 8
+    },
+    {
+        "question": "What is the capital of France",
+        "subject": "Geography",
+        "topic": "World Capitals",
+        "difficulty": "Easy",
+        "marks": 5
+    },
+    {
+        "question": "Differentiate between velocity and speed",
+        "subject": "Physics",
+        "topic": "Motion",
+        "difficulty": "Medium",
+        "marks": 7
+    },
+    {
+        "question": "Name the planets in our solar system",
+        "subject": "Astronomy",
+        "topic": "Solar System",
+        "difficulty": "Easy",
+        "marks": 6
+    },
+    {
+        "question": "Define the concept of supply and demand",
+        "subject": "Economics",
+        "topic": "Microeconomics",
+        "difficulty": "Hard",
+        "marks": 9
+    },
+    {
+        "question": "Who wrote 'Romeo and Juliet'",
+        "subject": "Literature",
+        "topic": "Shakespeare",
+        "difficulty": "Easy",
+        "marks": 5
+    },
+    {
+        "question": "Calculate the area of a triangle with base 8 and height 10",
+        "subject": "Mathematics",
+        "topic": "Geometry",
+        "difficulty": "Medium",
+        "marks": 7
+    },
+    {
+        "question": "Discuss the importance of the Industrial Revolution",
+        "subject": "History",
+        "topic": "Industrial Revolution",
+        "difficulty": "Hard",
+        "marks": 9
+    },
+    {
+        "question": "What is the structure of DNA",
+        "subject": "Biology",
+        "topic": "Genetics",
+        "difficulty": "Medium",
+        "marks": 8
+    },
+    {
+        "question": "Explain the concept of inflation",
+        "subject": "Economics",
+        "topic": "Macroeconomics",
+        "difficulty": "Hard",
+        "marks": 9
+    },
+    {
+        "question": "Simplify the expression (2x + 3)(x - 4)",
+        "subject": "Mathematics",
+        "topic": "Algebra",
+        "difficulty": "Medium",
+        "marks": 7
+    },
+    {
+        "question": "Who discovered electricity",
+        "subject": "Physics",
+        "topic": "Electricity",
+        "difficulty": "Easy",
+        "marks": 6
+    },
+    {
+        "question": "Define the concept of biodiversity",
+        "subject": "Environmental Science",
+        "topic": "Biodiversity",
+        "difficulty": "Medium",
+        "marks": 8
+    },
+    {
+        "question": "Name the elements in the periodic table",
+        "subject": "Chemistry",
+        "topic": "Periodic Table",
+        "difficulty": "Easy",
+        "marks": 6
+    },
+    {
+        "question": "Discuss the principles of democracy",
+        "subject": "Political Science",
+        "topic": "Democracy",
+        "difficulty": "Hard",
+        "marks": 9
+    },
+    {
+        "question": "What is the formula for calculating density",
+        "subject": "Physics",
+        "topic": "Density",
+        "difficulty": "Easy",
+        "marks": 5
+    },
+    {
+        "question": "Explain the process of continental drift",
+        "subject": "Geology",
+        "topic": "Plate Tectonics",
+        "difficulty": "Medium",
+        "marks": 8
+    },
+    {
+        "question": "Define the concept of globalization",
+        "subject": "Economics",
+        "topic": "Globalization",
+        "difficulty": "Hard",
+        "marks": 9
+    },
+    {
+        "question": "Who is known as the 'Father of Computers'",
+        "subject": "Computer Science",
+        "topic": "Computer Pioneers",
+        "difficulty": "Easy",
+        "marks": 6
+    },
+    {
+        "question": "Discuss the role of enzymes in biological reactions",
+        "subject": "Biology",
+        "topic": "Biochemistry",
+        "difficulty": "Medium",
+        "marks": 8
+    },
+    {
+        "question": "What is the Pythagorean theorem",
+        "subject": "Mathematics",
+        "topic": "Geometry",
+        "difficulty": "Easy",
+        "marks": 6
+    }
+]
