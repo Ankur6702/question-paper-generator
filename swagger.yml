@@ -35,16 +35,6 @@ paths:
       tags:
         - Basic CRUD
       summary: Get all questions
-      parameters:
-        - in: query
-          name: page
-          description: Page Number
-        - in: query
-          name: limit
-          description: Limit of questions per page
-        - in: query
-          name: sort
-          description: Sort by difficulty or marks
       responses:
         '200':
           description: Questions Fetched Successfully
