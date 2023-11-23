@@ -4,18 +4,22 @@ const router = express.Router();
 
 // Controllers
 const { 
-    createQuestion,  
+    createQuestion, 
+    createManyQuestions, 
     getQuestionById,
     getAllQuestions,
     updateQuestionById,
     deleteQuestionById,
     searchQuestionsByDifficulty,
-    searchQuestionsBySubject
+    searchQuestionsBySubject,
+    generateQuestionPaper
 } = require('../controllers/questionController');
 
 // Routes for /api/questions
 
 router.post('/create', createQuestion);
+
+router.post('/createMany', createManyQuestions);
 
 router.get('/get/:id', getQuestionById);
 
@@ -28,5 +32,7 @@ router.delete('/delete/:id', deleteQuestionById);
 router.post('/searchByDifficulty', searchQuestionsByDifficulty);
 
 router.post('/searchBySubject', searchQuestionsBySubject);
+
+router.post('/generateQuestionPaper', generateQuestionPaper);
 
 module.exports = router;

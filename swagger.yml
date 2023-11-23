@@ -11,10 +11,29 @@ servers:
   - url: 
     description: Production Server
 paths:
+  /question/get/{questionId}:
+    get:
+      tags:
+        - Basic CRUD
+      summary: Get a Question
+      parameters:
+        - in: path
+          name: questionId
+          description: Question ID
+          schema:
+            type: string
+            format: ObjectId
+      responses:
+        '200':
+          description: Question Fetched Successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
   /question/getAll:
     get:
       tags:
-        - Question
+        - Basic CRUD
       summary: Get all questions
       parameters:
         - in: query
@@ -36,7 +55,7 @@ paths:
   /question/create:
     post:
       tags:
-        - Question
+        - Basic CRUD
       summary: Create a Question
       requestBody:
         $ref: '#/components/requestBodies/CreateUpdateQuestion'
@@ -47,10 +66,29 @@ paths:
           description: Unauthorized
         '500':
           description: Internal Server Error
+  /question/createMany:
+    post:
+      tags:
+        - Basic CRUD
+      summary: Create many Questions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/CreateUpdateQuestionInput'
+      responses:
+        '200':
+          description: Questions Created Successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
   /question/update/{questionId}:
     put:
       tags:
-        - Question
+        - Basic CRUD
       summary: Update a Question
       parameters:
         - in: path
@@ -68,29 +106,10 @@ paths:
           description: Unauthorized
         '500':
           description: Internal Server Error
-  /question/get/{questionId}:
-    get:
-      tags:
-        - Question
-      summary: Get a Question
-      parameters:
-        - in: path
-          name: questionId
-          description: Question ID
-          schema:
-            type: string
-            format: ObjectId
-      responses:
-        '200':
-          description: Question Fetched Successfully
-        '401':
-          description: Unauthorized
-        '500':
-          description: Internal Server Error
   /question/delete/{questionId}:
     delete:
       tags:
-        - Question
+        - Basic CRUD
       summary: Delete a Question
       parameters:
         - in: path
@@ -109,7 +128,7 @@ paths:
   /question/searchByDifficulty:
     post:
       tags:
-        - Question
+        - Search Questions
       summary: Search questions based on difficulty.
       requestBody:
         $ref: '#/components/requestBodies/SearchByDifficulty'
@@ -123,13 +142,27 @@ paths:
   /question/searchBySubject:
     post:
       tags:
-        - Question
+        - Search Questions
       summary: Search questions based on subject.
       requestBody:
         $ref: '#/components/requestBodies/SearchBySubject'
       responses:
         '200':
           description: Questions Fetched Successfully
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal Server Error
+  /question/generateQuestionPaper:
+    post:
+      tags:
+        - Generate Question Paper
+      summary: Generate Question Paper
+      requestBody:
+        $ref: '#/components/requestBodies/GenerateQuestionPaper'
+      responses:
+        '200':
+          description: Question Paper Generated Successfully
         '401':
           description: Unauthorized
         '500':
@@ -167,6 +200,20 @@ components:
           type: string
         marks:
           type: string
+    GenerateQuestionPaperInput:
+      type: object
+      properties:
+        marks:
+          type: number
+        difficultyDistribution:
+          type: array
+          items:
+            type: object
+            properties:
+              difficulty:
+                type: string
+              percentage:
+                type: number
   requestBodies:
     CreateUpdateQuestion:
       content:
@@ -192,3 +239,9 @@ components:
               subject:
                 type: string
             description: Search by subject
+    GenerateQuestionPaper:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/GenerateQuestionPaperInput'
+        description: Generate Question Paper

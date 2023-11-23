@@ -10,6 +10,7 @@ const logger = require('../logger');
 async function createQuestion(req, res) {
     try {
         const { question, subject, topic, difficulty, marks } = req.body;
+        logger.info('Creating a question');
 
         const newQuestion = new Question({
             question,
@@ -30,16 +31,40 @@ async function createQuestion(req, res) {
 }
 
 /**
+ * @route POST api/question/createMany
+ * @desc Create many questions
+ * @body questions
+ * @return questions
+ */
+async function createManyQuestions(req, res) {
+    const questions = req.body;
+    logger.info('Creating multiple questions');
+
+    try {
+        const questionsCreated = await Question.insertMany(questions);
+
+        logger.info('Questions created successfully');
+        res.status(200).json(questionsCreated);
+    }
+    catch (error) {
+        logger.error('Error in creating questions: ', error);
+        res.status(500).json({ msg: 'Error in creating questions' });
+    }
+}
+
+/**
  * @route GET api/question/get/:id
  * @desc Get a question by id
  * @param id
  * @return question
  */
 async function getQuestionById(req, res) {
+    logger.info('Retrieving a question by id');
     try {
         const question = await Question.findById(req.params.id);
 
         if (!question) {
+            logger.error('Question not found');
             return res.status(404).json({ msg: 'Question not found' });
         }
 
@@ -57,10 +82,12 @@ async function getQuestionById(req, res) {
  * @return questions
  */
 async function getAllQuestions(req, res) {
+    logger.info('Retrieving all questions');
     try {
         const questions = await Question.find();
 
         if (!questions) {
+            logger.error('Questions not found');
             return res.status(404).json({ msg: 'Questions not found' });
         }
 
@@ -80,12 +107,14 @@ async function getAllQuestions(req, res) {
  * @return question
  */
 async function updateQuestionById(req, res) {
+    logger.info('Updating a question by id');
     try {
         const { question, subject, topic, difficulty, marks } = req.body;
 
         const questionToUpdate = await Question.findById(req.params.id);
 
         if (!questionToUpdate) {
+            logger.error('Question not found');
             return res.status(404).json({ msg: 'Question not found' });
         }
 
@@ -126,10 +155,12 @@ async function updateQuestionById(req, res) {
  * @return question
  */
 async function deleteQuestionById(req, res) {
+    logger.info('Deleting a question by id');
     try {
         const questionToDelete = await Question.findById(req.params.id);
 
         if (!questionToDelete) {
+            logger.error('Question not found');
             return res.status(404).json({ msg: 'Question not found' });
         }
 
@@ -151,12 +182,14 @@ async function deleteQuestionById(req, res) {
  */
 // @ts-ignore
 async function searchQuestionsByDifficulty(req, res) {
+    logger.info('Searching questions by difficulty');
     try {
         const { difficulty } = req.body;
 
         const questions = await Question.find({ difficulty });
 
         if (!questions) {
+            logger.error('Questions not found');
             return res.status(404).json({ msg: 'Questions not found' });
         }
 
@@ -175,12 +208,14 @@ async function searchQuestionsByDifficulty(req, res) {
  * @return questions
  */
 async function searchQuestionsBySubject(req, res) {
+    logger.info('Searching questions by subject');
     try {
         const { subject } = req.body;
 
         const questions = await Question.find({ subject });
 
         if (!questions) {
+            logger.error('Questions not found');
             return res.status(404).json({ msg: 'Questions not found' });
         }
 
@@ -192,12 +227,97 @@ async function searchQuestionsBySubject(req, res) {
     }
 }
 
+/**
+ * @route GET api/question/generateQuestionPaper
+ * @desc Generate question paper.
+ * @return questions
+ */
+async function generateQuestionPaper(req, res) {
+    try {
+        logger.info('Generating question paper');
+        const { marks, difficultyDistribution } = req.body;
+
+        // Validate inputs
+        if (!isValidDifficultyDistribution(difficultyDistribution)) {
+            logger.error('Invalid difficulty distribution');
+            return res.status(400).json({ msg: 'Invalid difficulty distribution' });
+        }
+
+        const questions = await generateQuestions(marks, difficultyDistribution);
+
+        logger.info('Question paper generated successfully: ', questions);
+        res.status(200).json({ questions });
+    } catch (error) {
+        logger.error('Error in generating question paper: ', error);
+        res.status(500).json({ msg: 'Error in generating question paper' });
+    }
+}
+
+
+// -----------------------------------------Helper functions --------------------------------------
+
+function isValidDifficultyDistribution(distribution) {
+    let totalPercentage = 0;
+    logger.info('Validating difficulty distribution');
+
+    for (let i = 0; i < distribution.length; i++) {
+        totalPercentage += distribution[i].percentage;
+    }
+
+    return totalPercentage === 100;
+}
+
+async function generateQuestions(totalMarks, difficultyDistribution) {
+    const questions = [];
+    logger.info('Generating questions');
+
+    for (let i = 0; i < difficultyDistribution.length; i++) {
+        const difficultyMarks = (difficultyDistribution[i].percentage / 100) * totalMarks;
+        const questionsByDifficulty = await Question.find({ difficulty: difficultyDistribution[i].difficulty });
+        const shuffledQuestions = shuffleArray(questionsByDifficulty);
+
+        questions.push(...selectQuestionsByMarks(shuffledQuestions, difficultyMarks));
+    }
+
+    logger.info('Questions generated successfully');
+    return questions;
+}
+
+function selectQuestionsByMarks(questions, marks) {
+    const selectedQuestions = [];
+    let remainingMarks = marks;
+
+    logger.info('Selecting questions by marks');
+
+    for (let i = 0; i < questions.length; i++) {
+        const question = questions[i];
+        if (question.marks <= remainingMarks) {
+            selectedQuestions.push(question);
+            remainingMarks -= question.marks;
+        }
+    }
+
+    return selectedQuestions;
+}
+
+function shuffleArray(array) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+
+    logger.info('Array shuffled successfully');
+    return array;
+}
+
 module.exports = {
     createQuestion,
+    createManyQuestions,
     getQuestionById,
     getAllQuestions,
     updateQuestionById,
     deleteQuestionById,
     searchQuestionsByDifficulty,
-    searchQuestionsBySubject
+    searchQuestionsBySubject,
+    generateQuestionPaper
 };
