@@ -6,10 +6,10 @@ info:
   contact:
     email: ankuragarwa246@gmail.com
 servers:
+  - url: https://question-paper-generator.azurewebsites.net/api
+    description: Production Server
   - url: http://localhost:9999/api
     description: Development server
-  - url: 
-    description: Production Server
 paths:
   /question/get/{questionId}:
     get:
